@@ -120,7 +120,7 @@
           <div class="m-loi__seal"><span>LOI<br>Form</span></div>
         </div>
 
-        <form class="m-loi__form" id="loi-form" onsubmit="event.preventDefault(); document.querySelector('.m-loi__form').style.display='none'; document.getElementById('loi-success').classList.add('is-shown'); window.scrollTo({top: document.getElementById('loi-success').offsetTop - 100, behavior:'smooth'});">
+        <form class="m-loi__form" id="loi-form" onsubmit="return false">
 
           <!-- 1. Company -->
           <div class="m-loi-section">
@@ -322,7 +322,7 @@
       <div class="m-quick">
         <h3>Quick inquiry.</h3>
         <p>For general questions and first conversations. We respond within one business day. No commercial terms returned until an LOI is on the desk.</p>
-        <form class="m-form" data-form="contact" onsubmit="event.preventDefault(); this.style.display='none'; this.parentElement.insertAdjacentHTML('beforeend','<div class=\&quot;m-loi__success is-shown\&quot; style=\&quot;margin-top:0\&quot;><h4>Thanks — message received.</h4><p>We will be in touch within one business day.</p></div>');">
+        <form class="m-form" data-form="contact" onsubmit="return false">
           <div class="m-form__row">
             <div class="m-field">
               <label class="m-field__label" for="f-first">First name *</label>
@@ -389,6 +389,78 @@
     });
     // Deep links: #loi or #quick
     if (location.hash === '#quick') document.querySelector('[data-tab=quick]').click();
+  })();
+</script>
+
+<!-- Form delivery: routes both forms to the trading desk inbox -->
+<script>
+  (function(){
+    // To enable seamless server-side capture (no mail client needed), paste a
+    // Formspree/Basin endpoint here, e.g. 'https://formspree.io/f/xxxxxxx'.
+    // Leave empty to use the email-compose fallback below.
+    var ENDPOINT = '';
+    var DESK_EMAIL = 'sales@mercatorum.ca';
+
+    function labelFor(form, el){
+      var fld = el.closest ? el.closest('.m-fld,.m-field') : null;
+      if(fld){ var lab = fld.querySelector('label'); if(lab) return lab.textContent.replace(/\*+/g,'').trim(); }
+      return el.name;
+    }
+    function collect(form){
+      var pairs = [], data = {};
+      Array.prototype.forEach.call(form.elements, function(el){
+        if(!el.name || el.disabled) return;
+        if((el.type==='radio'||el.type==='checkbox') && !el.checked) return;
+        var v = (el.value||'').trim();
+        data[el.name] = v;
+        if(v) pairs.push({label: labelFor(form, el), value: v});
+      });
+      return {data: data, pairs: pairs};
+    }
+    function bodyText(title, pairs){
+      var lines = [title, ''];
+      pairs.forEach(function(p){ lines.push(p.label + ': ' + p.value); });
+      lines.push('', '— Sent from mercatorum.ca');
+      return lines.join('\n');
+    }
+    function sendMail(subject, body){
+      window.location.href = 'mailto:' + DESK_EMAIL +
+        '?subject=' + encodeURIComponent(subject) +
+        '&body=' + encodeURIComponent(body);
+    }
+    function showLoiSuccess(){
+      var f = document.getElementById('loi-form'); if(f) f.style.display='none';
+      var s = document.getElementById('loi-success');
+      if(s){ s.classList.add('is-shown'); try{ window.scrollTo({top: s.offsetTop - 100, behavior:'smooth'}); }catch(e){} }
+    }
+    function showQuickSuccess(form){
+      form.style.display='none';
+      form.parentElement.insertAdjacentHTML('beforeend',
+        '<div class="m-loi__success is-shown" style="margin-top:0"><h4>Thanks — message received.</h4><p>We will be in touch within one business day.</p></div>');
+    }
+    function bind(form, subject, onDone){
+      if(!form) return;
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        if(!form.checkValidity()){ form.reportValidity(); return; }
+        var c = collect(form);
+        var body = bodyText(subject, c.pairs);
+        if(ENDPOINT){
+          var btn = form.querySelector('[type=submit]'); if(btn) btn.disabled = true;
+          var payload = Object.assign({_subject: subject, _replyto: c.data.loi_email || c.data.email || ''}, c.data);
+          fetch(ENDPOINT, {method:'POST', headers:{'Accept':'application/json','Content-Type':'application/json'}, body: JSON.stringify(payload)})
+            .then(function(){ onDone(); })
+            .catch(function(){ sendMail(subject, body); onDone(); });
+        } else {
+          sendMail(subject, body);
+          onDone();
+        }
+      });
+    }
+    var loi = document.getElementById('loi-form');
+    bind(loi, 'New LOI — Mercatorum Trading Co.', showLoiSuccess);
+    var quick = document.querySelector('form[data-form="contact"]');
+    bind(quick, 'Website inquiry — Mercatorum', function(){ showQuickSuccess(quick); });
   })();
 </script>
 
