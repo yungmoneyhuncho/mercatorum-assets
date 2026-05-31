@@ -2,6 +2,52 @@
 (function(){
   if (window.__mercatorum_router) return;
   window.__mercatorum_router = true;
+
+  /* --- Site-wide: rewrite legacy ".html" links to clean Squarespace slugs ---
+     Runs on EVERY page (home included), catches links added later (chat bubbles,
+     mobile nav) via a MutationObserver, and fixes any straggler on click. */
+  (function(){
+    var H = {
+      'index.html':'/', 'home.html':'/',
+      'products.html':'/products', 'insights.html':'/insights',
+      'knowledge.html':'/knowledge', 'about.html':'/about', 'contact.html':'/contact',
+      'insights-canola-2026.html':'/insights-canola-2026',
+      'insights-lentils-2026.html':'/insights-lentils-2026',
+      'insights-freight-2026.html':'/insights-freight-2026'
+    };
+    function clean(h){
+      if (!h || /^(https?:|mailto:|tel:|javascript:)/i.test(h)) return null;
+      var hi = h.indexOf('#'), hash = hi > -1 ? h.slice(hi) : '', path = hi > -1 ? h.slice(0, hi) : h;
+      var k = path.replace(/^\.?\//, '');
+      if (H[k] !== undefined) return H[k] + hash;
+      if (/^[\w-]+\.html$/.test(k)) return '/' + k.replace(/\.html$/, '') + hash;
+      return null;
+    }
+    function fix(a){ var c = clean(a.getAttribute('href')); if (c !== null) a.setAttribute('href', c); }
+    function sweep(root){ var L = (root || document).querySelectorAll('a[href]'); for (var i=0;i<L.length;i++) fix(L[i]); }
+    function start(){
+      sweep(document);
+      try {
+        new MutationObserver(function(muts){
+          for (var i=0;i<muts.length;i++){
+            var nodes = muts[i].addedNodes;
+            for (var j=0;j<nodes.length;j++){
+              var n = nodes[j];
+              if (n.nodeType !== 1) continue;
+              if (n.matches && n.matches('a[href]')) fix(n);
+              if (n.querySelectorAll) sweep(n);
+            }
+          }
+        }).observe(document.documentElement, { childList:true, subtree:true });
+      } catch(e){}
+      document.addEventListener('click', function(e){
+        var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+        if (a) fix(a);
+      }, true);
+    }
+    if (document.readyState !== 'loading') start(); else document.addEventListener('DOMContentLoaded', start);
+  })();
+
   var MAP = {
     '/products':'products', '/insights':'insights', '/knowledge':'knowledge',
     '/about':'about', '/contact':'contact',

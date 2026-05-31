@@ -607,7 +607,7 @@
     let note = '';
     if (grain) { state.lastCommodity = grain; note = ` <span style="opacity:0.7">(${grain}, ${BUSHEL_KG[grain]} kg/bu)</span>`; }
     if (isOil) note = ` <span style="opacity:0.7">(crude, ${OIL_BBL_PER_MT} bbl/MT — varies with API)</span>`;
-    return { html: `<code>${fmt(value)} ${uname[fromU]}</code> ≈ <code>${fmt(result)} ${uname[toU]}</code>${note}<br><br>Full converter with every grain: <a href="knowledge.html#converter">Knowledge Center →</a>. Want a price on this volume? I can route you to the desk.`,
+    return { html: `<code>${fmt(value)} ${uname[fromU]}</code> ≈ <code>${fmt(result)} ${uname[toU]}</code>${note}<br><br>Full converter with every grain: <a href="/knowledge#converter">Knowledge Center →</a>. Want a price on this volume? I can route you to the desk.`,
              chips: ['Get a quote', 'Another conversion', state.lastCommodity ? ('About ' + grain) : 'What do you trade?'] };
   }
 
@@ -722,7 +722,7 @@
     return {
       html: `Here's your inquiry:<br><br>${summary || '<em>(no details captured)</em>'}<br><br>` +
             `I've saved this so the LOI form opens <strong>pre-filled</strong> — just review and submit, and it routes straight to the senior trader for your product line.<br><br>` +
-            `<a class="am-cta-link" href="contact.html#loi">Open my pre-filled LOI form →</a>` +
+            `<a class="am-cta-link" href="/contact#loi">Open my pre-filled LOI form →</a>` +
             `<a class="am-cta-link am-cta-link--ghost" href="${mailto}">Or email the desk now</a>`,
       chips: ['Edit / start over', 'What happens next?', 'Payment terms?']
     };
@@ -747,19 +747,19 @@
     }
     // 0c) "what happens next" after a booking
     if (has('what happens next','what next','then what','after i submit','after submit'))
-      return { html:`Once your LOI lands: <br><br>1. The senior trader for that product confirms receipt (same day).<br>2. We run a quick KYC + check supply and freight.<br>3. You get a <strong>firm offer</strong> with price, terms &amp; validity — usually 1–2 business days.<br>4. Agree terms → we issue a draft contract → you open the LC → we ship.<br><br>Ready? <a href="contact.html#loi">Open the LOI form →</a>`, chips:[{label:'Book an inquiry',cta:true},'Payment terms?','Documents needed'] };
+      return { html:`Once your LOI lands: <br><br>1. The senior trader for that product confirms receipt (same day).<br>2. We run a quick KYC + check supply and freight.<br>3. You get a <strong>firm offer</strong> with price, terms &amp; validity — usually 1–2 business days.<br>4. Agree terms → we issue a draft contract → you open the LC → we ship.<br><br>Ready? <a href="/contact#loi">Open the LOI form →</a>`, chips:[{label:'Book an inquiry',cta:true},'Payment terms?','Documents needed'] };
 
     // 1) lead-capture: awaiting an email
     if (state.awaitingEmail){
       const m = qRaw.match(EMAIL_RE);
       if (m){
         state.awaitingEmail = false;
-        return { html: `Got it — <strong>${escapeHtml(m[0])}</strong>. I've flagged this for the desk${state.lastCommodity ? ' (re: '+state.lastCommodity+')' : ''} and a trader will reach out within one business day.<br><br>For a firm price &amp; terms faster, the <a href="contact.html#loi">LOI form</a> goes straight to the senior trader.`,
+        return { html: `Got it — <strong>${escapeHtml(m[0])}</strong>. I've flagged this for the desk${state.lastCommodity ? ' (re: '+state.lastCommodity+')' : ''} and a trader will reach out within one business day.<br><br>For a firm price &amp; terms faster, the <a href="/contact#loi">LOI form</a> goes straight to the senior trader.`,
                  chips: [{ label:'Submit an LOI', cta:true }, 'What do you trade?', 'Incoterms'] };
       }
       if (has('no','later','not now','nvm','cancel')){
         state.awaitingEmail = false;
-        return { html:`No problem. Ask me anything else, or submit an <a href="contact.html#loi">LOI</a> whenever you're ready.`, chips: defaultChips() };
+        return { html:`No problem. Ask me anything else, or submit an <a href="/contact#loi">LOI</a> whenever you're ready.`, chips: defaultChips() };
       }
       return { html:`Just drop a business email and I'll have a trader follow up — or say "no" to skip.`, chips:['No thanks'] };
     }
@@ -767,7 +767,7 @@
     // 2) email volunteered mid-conversation
     const emailVolunteered = qRaw.match(EMAIL_RE);
     if (emailVolunteered){
-      return { html:`Thanks — I've noted <strong>${escapeHtml(emailVolunteered[0])}</strong> for the desk${state.lastCommodity ? ' (re: '+state.lastCommodity+')' : ''}. A trader will be in touch within one business day. For a firm offer, the <a href="contact.html#loi">LOI form</a> is fastest.`,
+      return { html:`Thanks — I've noted <strong>${escapeHtml(emailVolunteered[0])}</strong> for the desk${state.lastCommodity ? ' (re: '+state.lastCommodity+')' : ''}. A trader will be in touch within one business day. For a firm offer, the <a href="/contact#loi">LOI form</a> is fastest.`,
                chips:[{ label:'Submit an LOI', cta:true }, 'What do you trade?'] };
     }
 
@@ -797,11 +797,11 @@
 
     // 6) "just looking" / info
     if (has('just looking','just browsing','just info','no, just info','exploring','scoping'))
-      return { html:`All good — ask away. Popular topics: what we trade, Incoterms, document checklists, or a quick unit conversion. When you're ready for a price, the <a href="contact.html#loi">LOI</a> routes to the desk.`, chips:['What do you trade?','CFR vs CIF?','Documents needed'] };
+      return { html:`All good — ask away. Popular topics: what we trade, Incoterms, document checklists, or a quick unit conversion. When you're ready for a price, the <a href="/contact#loi">LOI</a> routes to the desk.`, chips:['What do you trade?','CFR vs CIF?','Documents needed'] };
 
     // 7) products
     if (has('what','which') && has('trade','sell','offer','products','commodit','deal in')){
-      return { html:`Three desks:<br><br><strong>Agriculture</strong> — wheat, durum, barley, oats, canola, flax, soybeans, peas, lentils, chickpeas.<br><strong>Energy</strong> — crude, diesel, gasoline, jet, NGLs.<br><strong>Chemicals &amp; fertilizer</strong> — urea, DAP, MOP, methanol, polypropylene.<br><br>Full catalogue with photos: <a href="products.html">products page</a>. Which one interests you?`,
+      return { html:`Three desks:<br><br><strong>Agriculture</strong> — wheat, durum, barley, oats, canola, flax, soybeans, peas, lentils, chickpeas.<br><strong>Energy</strong> — crude, diesel, gasoline, jet, NGLs.<br><strong>Chemicals &amp; fertilizer</strong> — urea, DAP, MOP, methanol, polypropylene.<br><br>Full catalogue with photos: <a href="/products">products page</a>. Which one interests you?`,
                chips:['Canola','Lentils','Crude oil','Fertilizer'] };
     }
 
@@ -809,15 +809,15 @@
     const c = detectCommodity(q);
     if (c){
       state.lastCommodity = canonicalGrain(c) || c;
-      if (/canola|rapeseed/.test(c)) return { html:`<strong>Canola</strong> — one of our biggest desks. Sourced from named SK/AB growers, shipped FOB Vancouver/Prince Rupert into Asia and CIF Rotterdam into the EU. Our latest read: <a href="insights-canola-2026.html">canola outlook</a>. Want a quote?`, chips:[{label:'Quote canola',cta:true},'Convert canola MT→bu','Outlook'] };
-      if (/lentil|pulse|chickpea|pea/.test(c)) return { html:`<strong>Pulses</strong> — red &amp; green lentils, yellow &amp; green peas, chickpeas, from SK/AB. Bulk into India/Bangladesh/Türkiye, containers everywhere else. See our <a href="insights-lentils-2026.html">India-window note</a>.`, chips:[{label:'Quote pulses',cta:true},'Documents needed','Outlook'] };
+      if (/canola|rapeseed/.test(c)) return { html:`<strong>Canola</strong> — one of our biggest desks. Sourced from named SK/AB growers, shipped FOB Vancouver/Prince Rupert into Asia and CIF Rotterdam into the EU. Our latest read: <a href="/insights-canola-2026">canola outlook</a>. Want a quote?`, chips:[{label:'Quote canola',cta:true},'Convert canola MT→bu','Outlook'] };
+      if (/lentil|pulse|chickpea|pea/.test(c)) return { html:`<strong>Pulses</strong> — red &amp; green lentils, yellow &amp; green peas, chickpeas, from SK/AB. Bulk into India/Bangladesh/Türkiye, containers everywhere else. See our <a href="/insights-lentils-2026">India-window note</a>.`, chips:[{label:'Quote pulses',cta:true},'Documents needed','Outlook'] };
       if (/wheat|durum|barley|oats|grain/.test(c)) return { html:`<strong>Grain</strong> — HRS &amp; durum wheat, barley, oats. Milling and feed grades, CFR or FOB out of Vancouver, Prince Rupert, or Thunder Bay. What volume and destination?`, chips:[{label:'Get a quote',cta:true},'Convert MT→bu','Incoterms'] };
       if (/crude|oil|diesel|gasoline|jet|ngl/.test(c)) return { html:`<strong>Energy</strong> — Canadian crude (WCS, MSW, Synthetic), diesel/ULSD, gasoline, jet, NGLs. From 25 kbbl up to vessel lots. Rail- or pipeline-connected origins.`, chips:[{label:'Get a quote',cta:true},'Convert bbl↔MT','Incoterms'] };
       if (/urea|dap|potash|mop|methanol|polypropylene|fertilizer/.test(c)) return { html:`<strong>Chemicals &amp; fertilizer</strong> — urea, DAP, MOP, methanol, polypropylene. Bulk or break-bulk by destination and volume. SDS and CoA on every cargo.`, chips:[{label:'Get a quote',cta:true},'Documents needed','Incoterms'] };
     }
 
     // 9) incoterms — comparisons first, then single terms
-    if (has('cfr') && has('cif')) return { html:`<strong>CFR</strong> = Cost &amp; Freight — seller pays freight to the destination port; buyer carries voyage risk.<br><br><strong>CIF</strong> = CFR + marine insurance the seller buys for the voyage.<br><br>Full table: <a href="knowledge.html#incoterms">Knowledge Center</a>.`, chips:['What is FOB?','What is DAP?','Get a quote'] };
+    if (has('cfr') && has('cif')) return { html:`<strong>CFR</strong> = Cost &amp; Freight — seller pays freight to the destination port; buyer carries voyage risk.<br><br><strong>CIF</strong> = CFR + marine insurance the seller buys for the voyage.<br><br>Full table: <a href="/knowledge#incoterms">Knowledge Center</a>.`, chips:['What is FOB?','What is DAP?','Get a quote'] };
     if (has('fob') && has('cif')) return { html:`<strong>FOB vs CIF:</strong><br><br>On <strong>FOB</strong> the seller just loads the vessel — you arrange and pay freight + insurance and carry the voyage risk. Lowest unit price, most control.<br><br>On <strong>CIF</strong> the seller pays freight <em>and</em> insurance to your port (risk still passes at loading). Simpler for you, priced higher.<br><br>Take FOB if you have freight; CIF if you'd rather we handle it.`, chips:['CFR vs CIF?','Which should I use?','Get a quote'] };
     if (has('fob') && has('cfr')) return { html:`<strong>FOB vs CFR:</strong> on FOB you book and pay the ocean freight; on CFR the seller books and pays freight to your port (you still carry the voyage risk, no insurance). CFR is handy when you'd rather not arrange shipping.`, chips:['CFR vs CIF?','Which should I use?'] };
     if (has('fob')) return { html:`<strong>FOB</strong> — Free On Board. Seller delivers onto the vessel at the load port; from there the buyer pays freight + insurance and carries the risk.`, chips:['CFR vs CIF?','What is FCA?','Get a quote'] };
@@ -825,15 +825,15 @@
     if (has('cfr')) return { html:`<strong>CFR</strong> — Cost &amp; Freight. Seller pays freight to the destination; buyer carries voyage risk (no insurance).`, chips:['CFR vs CIF?','What is FOB?'] };
     if (has('fca')) return { html:`<strong>FCA</strong> — Free Carrier. Seller delivers to a buyer-nominated carrier at the named place. Common for containers.`, chips:['What is FOB?','Get a quote'] };
     if (has('dap')) return { html:`<strong>DAP</strong> — Delivered At Place. Seller bears risk &amp; cost to the named delivery point; buyer handles import clearance &amp; duties.`, chips:['What is CIF?','Get a quote'] };
-    if (has('incoterm','trade term')) return { html:`Incoterms 2020 — 11 rules for how cost &amp; risk pass. We mostly use FOB, CFR, CIF, FCA, DAP. Side-by-side breakdown: <a href="knowledge.html#incoterms">Knowledge Center</a>.`, chips:['CFR vs CIF?','What is FOB?'] };
+    if (has('incoterm','trade term')) return { html:`Incoterms 2020 — 11 rules for how cost &amp; risk pass. We mostly use FOB, CFR, CIF, FCA, DAP. Side-by-side breakdown: <a href="/knowledge#incoterms">Knowledge Center</a>.`, chips:['CFR vs CIF?','What is FOB?'] };
 
     // 10) documents
     if (has('document','paperwork','phyto','b/l','bill of lading','certificate','sgs','inspection'))
-      return { html:`Standard export docs: commercial invoice, bill of lading, certificate of origin, phytosanitary (grain/pulses), weight &amp; quality from an independent surveyor, and insurance certificate on CIF. Per-commodity checklists: <a href="knowledge.html#documents">Knowledge Center</a>.`, chips:['Payment terms?','Get a quote'] };
+      return { html:`Standard export docs: commercial invoice, bill of lading, certificate of origin, phytosanitary (grain/pulses), weight &amp; quality from an independent surveyor, and insurance certificate on CIF. Per-commodity checklists: <a href="/knowledge#documents">Knowledge Center</a>.`, chips:['Payment terms?','Get a quote'] };
 
     // 11) LOI
     if (has('loi','letter of intent','what do i need'))
-      return { html:`An <strong>LOI</strong> tells us the trade is real so we can issue a firm offer. You'll need: commodity &amp; grade, quantity per shipment, Incoterm, destination port, target price, payment instrument + issuing bank, and shipment window.<br><br>The <a href="contact.html#loi">LOI form</a> walks you through it — about 6 minutes, routes to a senior trader.`, chips:[{label:'Submit an LOI',cta:true},'Minimum order?','Payment terms?'] };
+      return { html:`An <strong>LOI</strong> tells us the trade is real so we can issue a firm offer. You'll need: commodity &amp; grade, quantity per shipment, Incoterm, destination port, target price, payment instrument + issuing bank, and shipment window.<br><br>The <a href="/contact#loi">LOI form</a> walks you through it — about 6 minutes, routes to a senior trader.`, chips:[{label:'Submit an LOI',cta:true},'Minimum order?','Payment terms?'] };
 
     // 12) quote / contact → start guided booking
     if (has('quote','rfq','price','pricing','offer','how much','cost','get a quote','get started','book')){
@@ -845,7 +845,7 @@
       return startBooking(seed);
     }
     if (has('contact','email','phone','reach','talk to','speak'))
-      return { html:`Reach the desk at <a href="mailto:sales@mercatorum.ca">sales@mercatorum.ca</a> or via the <a href="contact.html">contact page</a>. Replies within one business day. Ready for a firm offer? The <a href="contact.html#loi">LOI form</a> is fastest.`, chips:[{label:'Submit an LOI',cta:true},'What do you trade?'] };
+      return { html:`Reach the desk at <a href="mailto:sales@mercatorum.ca">sales@mercatorum.ca</a> or via the <a href="/contact">contact page</a>. Replies within one business day. Ready for a firm offer? The <a href="/contact#loi">LOI form</a> is fastest.`, chips:[{label:'Submit an LOI',cta:true},'What do you trade?'] };
 
     // 13) minimums, location, freight, insights, company
     if (has('minimum','min order','smallest','min volume','how small'))
@@ -853,11 +853,11 @@
     if (has('where','based','located','office','address','country'))
       return { html:`Mercatorum is a <strong>Canadian commodity merchant house</strong>; our trading desk sits in Alberta. Cargoes route through Vancouver &amp; Prince Rupert (Asia-Pacific), Thunder Bay &amp; Montreal (Europe/Atlantic), and Houston (LATAM).`, chips:['What do you trade?','Get a quote'] };
     if (has('freight','panamax','capesize','shipping rate','dry bulk','vessel'))
-      return { html:`Freight is structurally tight on Pacific routes right now — our <a href="insights-freight-2026.html">freight note</a> explains why and what it does to CFR vs FOB out of Vancouver.`, chips:['CFR vs CIF?','Get a quote'] };
+      return { html:`Freight is structurally tight on Pacific routes right now — our <a href="/insights-freight-2026">freight note</a> explains why and what it does to CFR vs FOB out of Vancouver.`, chips:['CFR vs CIF?','Get a quote'] };
     if (has('insight','market','news','outlook','commentary','blog','report'))
-      return { html:`Notes from the desk: <a href="insights.html">Market Insights</a>. Latest — canola outlook, red lentils &amp; India, dry-bulk freight.`, chips:['Canola','Lentils','Freight'] };
+      return { html:`Notes from the desk: <a href="/insights">Market Insights</a>. Latest — canola outlook, red lentils &amp; India, dry-bulk freight.`, chips:['Canola','Lentils','Freight'] };
     if (has('about','who are you','company','tell me about','history'))
-      return { html:`Mercatorum is a Canadian merchant house — small team, wide reach, connecting named Canadian producers to buyers in 40+ countries. More: <a href="about.html">about page</a>.`, chips:['What do you trade?','Get a quote'] };
+      return { html:`Mercatorum is a Canadian merchant house — small team, wide reach, connecting named Canadian producers to buyers in 40+ countries. More: <a href="/about">about page</a>.`, chips:['What do you trade?','Get a quote'] };
 
     // 13b) how a trade works / process
     if (has('how does','how do you','process','how it works','how a trade','steps','workflow','how would','how can i','get started','first step'))
@@ -912,13 +912,13 @@
       return { html:`We screen every counterparty and destination against OFAC/EU/UN sanctions lists and won't transact where prohibited. Clean compliance is a condition of every contract.`, chips:['KYC process?',{label:'Book an inquiry',cta:true}] };
 
     // 13) minimums, location, freight, insights, company
-      return { html:`Anytime. Ready for a price, the <a href="contact.html#loi">LOI form</a> reaches the desk directly — otherwise ask me anything else.`, chips:['Submit an LOI','What do you trade?'] };
+      return { html:`Anytime. Ready for a price, the <a href="/contact#loi">LOI form</a> reaches the desk directly — otherwise ask me anything else.`, chips:['Submit an LOI','What do you trade?'] };
     if (has('bye','goodbye','later','cya','that\'s all'))
-      return { html:`Cheers — close the panel whenever. The desk's always here: <a href="contact.html">contact</a>.`, chips:['Get a quote'] };
+      return { html:`Cheers — close the panel whenever. The desk's always here: <a href="/contact">contact</a>.`, chips:['Get a quote'] };
 
     // 15) fallback (acknowledge context)
     const ctx = state.lastCommodity ? ` We were talking about <strong>${state.lastCommodity}</strong> — want a quote on that?` : '';
-    return { html:`I can help with commodities, Incoterms, document checklists, conversions, and quotes.${ctx}<br><br>Try something like <code>CFR vs CIF</code>, <code>500 MT wheat to bushels</code>, or <em>"I want to buy canola"</em>. For a real price, the <a href="contact.html#loi">LOI form</a> routes to the desk.`,
+    return { html:`I can help with commodities, Incoterms, document checklists, conversions, and quotes.${ctx}<br><br>Try something like <code>CFR vs CIF</code>, <code>500 MT wheat to bushels</code>, or <em>"I want to buy canola"</em>. For a real price, the <a href="/contact#loi">LOI form</a> routes to the desk.`,
              chips: defaultChips() };
   }
 
