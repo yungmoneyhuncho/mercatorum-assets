@@ -1,0 +1,504 @@
+<nav class="m-glass-nav" aria-label="Primary">
+  <a href="/home" class="m-glass-nav__logo">
+    <span class="m-glass-nav__coin"><img src="https://cdn.jsdelivr.net/gh/yungmoneyhuncho/mercatorum-assets@main/logo-monogram.png" alt="Mercatorum mark"></span>
+    <span class="m-glass-nav__word">Mercatorum</span>
+  </a>
+  <div class="m-glass-nav__links">
+    <a href="/home">Home</a>
+    <a href="/products">Products</a>
+    <a href="/insights">Insights</a>
+    <a href="/knowledge">Knowledge</a>
+    <a href="/about">About</a>
+    <a href="/contact" class="is-active">Contact</a>
+  </div>
+  <a class="m-glass-nav__cta" href="#form">Send inquiry</a>
+</nav>
+
+<!-- CINEMATIC HERO -->
+
+<section class="m-contact-hero">
+  <div class="m-contact-hero__inner">
+    <p class="m-eyebrow">Contact</p>
+    <h1 class="m-contact-hero__title">Tell us what you need.</h1>
+    <p class="m-contact-hero__lede">
+      A note to our desk gets a response within one business day. Whether you're
+      sourcing a single cargo or planning a multi-year offtake — or just want
+      to talk specs — we'd like to hear from you.
+    </p>
+    <div class="m-contact-hero__meta">
+      <div class="m-contact-hero__meta-item">
+        <span class="m-contact-hero__meta-label">Office</span>
+        <span class="m-contact-hero__meta-value">Edmonton, Alberta</span>
+      </div>
+      <div class="m-contact-hero__meta-item">
+        <span class="m-contact-hero__meta-label">Email</span>
+        <span class="m-contact-hero__meta-value">sales@mercatorum.ca</span>
+      </div>
+      <div class="m-contact-hero__meta-item">
+        <span class="m-contact-hero__meta-label">Reply</span>
+        <span class="m-contact-hero__meta-value">Within one business day</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PATH SELECTOR — sorts serious buyers from general enquiry -->
+
+
+<!-- PATH SELECTOR -->
+<section class="m-path" id="paths">
+  <div class="m-path__intro">
+    <p class="m-eyebrow" style="justify-content:center">Two ways to reach the desk</p>
+    <h2 class="m-path__title">Talk to us — at the level<br>that fits the trade.</h2>
+    <p class="m-path__sub">
+      We work with serious buyers ready to transact. Pick the path that
+      matches where you are. Quotes are returned faster when the
+      inquiry comes in with the specifics already in hand.
+    </p>
+  </div>
+  <div class="m-path__grid">
+
+    <!-- LOI path -->
+    <div class="m-path__card m-path__card--featured">
+      <div class="m-path__ribbon">Recommended</div>
+      <span class="m-path__tag">For ready buyers</span>
+      <h3>Submit a Letter of Intent.</h3>
+      <p class="m-path__desc">
+        You know what you want, where it's going, how you're paying,
+        and when you need it. Submit the trade specifics and we'll
+        return an offer with firm price and terms.
+      </p>
+      <ul class="m-path__list">
+        <li>Firm offer with price, terms &amp; validity</li>
+        <li>Returned within 1–2 business days</li>
+        <li>Routes directly to a senior trader</li>
+        <li>Confidential — covered by mutual NCND</li>
+      </ul>
+      <a class="m-path__cta m-path__cta--primary" href="#loi" onclick="document.querySelector('[data-tab=loi]').click()">Submit LOI ↓</a>
+      <p class="m-path__time">Takes about 6 minutes · LC, TT, or DLC at sight accepted</p>
+    </div>
+
+    <!-- Quick inquiry path -->
+    <div class="m-path__card">
+      <span class="m-path__tag">For first conversations</span>
+      <h3>Send a quick inquiry.</h3>
+      <p class="m-path__desc">
+        Still scoping the trade, want to know what's available, or
+        looking for a market read before you commit. We respond, but
+        without commercial terms.
+      </p>
+      <ul class="m-path__list">
+        <li>General product &amp; availability info</li>
+        <li>Reply within one business day</li>
+        <li>No price &amp; terms until LOI received</li>
+        <li>Free — no obligation</li>
+      </ul>
+      <a class="m-path__cta m-path__cta--ghost" href="#quick" onclick="document.querySelector('[data-tab=quick]').click()">Open quick form ↓</a>
+      <p class="m-path__time">Takes about 90 seconds · For pre-LOI conversations</p>
+    </div>
+  </div>
+</section>
+
+<!-- FORM SECTION (tabbed) -->
+<section class="m-toggle-wrap" id="form">
+  <div class="m-toggle">
+    <div class="m-toggle__navwrap">
+      <div class="m-toggle__nav" role="tablist">
+        <button class="is-active" data-tab="loi" type="button">Letter of Intent</button>
+        <button data-tab="quick" type="button">Quick inquiry</button>
+      </div>
+    </div>
+
+    <!-- LOI FORM -->
+    <div class="m-toggle__panel is-active" data-panel="loi" id="loi">
+      <div class="m-loi">
+        <div class="m-loi__head">
+          <div>
+            <h3>Letter of Intent · Mercatorum Trading Co.</h3>
+            <p>Complete the form below. Required fields are marked. We treat every LOI as confidential and route it directly to the desk lead for your product line.</p>
+          </div>
+          <div class="m-loi__seal"><span>LOI<br>Form</span></div>
+        </div>
+
+        <form class="m-loi__form" id="loi-form" onsubmit="event.preventDefault(); document.querySelector('.m-loi__form').style.display='none'; document.getElementById('loi-success').classList.add('is-shown'); window.scrollTo({top: document.getElementById('loi-success').offsetTop - 100, behavior:'smooth'});">
+
+          <!-- 1. Company -->
+          <div class="m-loi-section">
+            <p class="m-loi-section__title">01 · Buyer / Company</p>
+            <div class="m-grid-2">
+              <div class="m-fld">
+                <label>Legal company name<span class="req">*</span></label>
+                <input type="text" name="loi_company" required>
+              </div>
+              <div class="m-fld">
+                <label>Country of registration<span class="req">*</span></label>
+                <input type="text" name="loi_country" required placeholder="e.g. United Arab Emirates">
+              </div>
+              <div class="m-fld">
+                <label>Years in operation</label>
+                <input type="text" name="loi_years" placeholder="e.g. 12">
+              </div>
+              <div class="m-fld">
+                <label>Company website</label>
+                <input type="url" name="loi_web" placeholder="https://">
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Signatory -->
+          <div class="m-loi-section">
+            <p class="m-loi-section__title">02 · Authorized signatory</p>
+            <div class="m-grid-2">
+              <div class="m-fld">
+                <label>Full name<span class="req">*</span></label>
+                <input type="text" name="loi_name" required>
+              </div>
+              <div class="m-fld">
+                <label>Title / position<span class="req">*</span></label>
+                <input type="text" name="loi_title" required placeholder="e.g. Procurement Director">
+              </div>
+              <div class="m-fld">
+                <label>Business email<span class="req">*</span></label>
+                <input type="email" name="loi_email" required>
+              </div>
+              <div class="m-fld">
+                <label>Direct phone<span class="req">*</span></label>
+                <input type="tel" name="loi_phone" required placeholder="+1…">
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Specification -->
+          <div class="m-loi-section">
+            <p class="m-loi-section__title">03 · Commodity &amp; specification</p>
+            <div class="m-grid-2">
+              <div class="m-fld">
+                <label>Product line<span class="req">*</span></label>
+                <select name="loi_line" required>
+                  <option value="">Select…</option>
+                  <option>Agriculture — grain / oilseed</option>
+                  <option>Agriculture — pulses</option>
+                  <option>Energy — crude oil</option>
+                  <option>Energy — refined products</option>
+                  <option>Chemicals — fertilizers</option>
+                  <option>Chemicals — industrial</option>
+                </select>
+              </div>
+              <div class="m-fld">
+                <label>Commodity &amp; grade<span class="req">*</span></label>
+                <input type="text" name="loi_product" required placeholder="e.g. Canola, No. 1 CAN, non-GMO">
+              </div>
+              <div class="m-fld m-fld--full">
+                <label>Specifications</label>
+                <textarea name="loi_spec" placeholder="Moisture, protein, oil content, sulfur, API, density — anything binding"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Quantity -->
+          <div class="m-loi-section">
+            <p class="m-loi-section__title">04 · Quantity &amp; contract term</p>
+            <div class="m-grid-3">
+              <div class="m-fld">
+                <label>Quantity per shipment (MT)<span class="req">*</span></label>
+                <input type="text" name="loi_qty" required placeholder="e.g. 25,000">
+              </div>
+              <div class="m-fld">
+                <label>Total contract volume (MT)</label>
+                <input type="text" name="loi_total" placeholder="e.g. 300,000 annual">
+              </div>
+              <div class="m-fld">
+                <label>Shipments / frequency</label>
+                <input type="text" name="loi_freq" placeholder="e.g. 1 per month × 12">
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. Logistics -->
+          <div class="m-loi-section">
+            <p class="m-loi-section__title">05 · Logistics &amp; trade terms</p>
+            <div class="m-grid-3">
+              <div class="m-fld">
+                <label>Incoterm<span class="req">*</span></label>
+                <select name="loi_incoterm" required>
+                  <option value="">Select…</option>
+                  <option>FOB</option>
+                  <option>CFR</option>
+                  <option>CIF</option>
+                  <option>FCA</option>
+                  <option>DAP</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="m-fld">
+                <label>Load port preference</label>
+                <input type="text" name="loi_loadport" placeholder="Seller's option / Vancouver / etc.">
+              </div>
+              <div class="m-fld">
+                <label>Destination port<span class="req">*</span></label>
+                <input type="text" name="loi_destport" required placeholder="e.g. Jebel Ali, UAE">
+              </div>
+              <div class="m-fld">
+                <label>Target shipment window<span class="req">*</span></label>
+                <input type="text" name="loi_window" required placeholder="e.g. Aug–Oct 2026">
+              </div>
+              <div class="m-fld">
+                <label>First shipment</label>
+                <input type="text" name="loi_first" placeholder="e.g. within 30 days of contract">
+              </div>
+            </div>
+          </div>
+
+          <!-- 6. Commercial -->
+          <div class="m-loi-section">
+            <p class="m-loi-section__title">06 · Commercial</p>
+            <div class="m-grid-3">
+              <div class="m-fld">
+                <label>Target price &amp; currency<span class="req">*</span></label>
+                <input type="text" name="loi_price" required placeholder="e.g. USD 645 / MT CIF">
+              </div>
+              <div class="m-fld">
+                <label>Payment instrument<span class="req">*</span></label>
+                <select name="loi_payment" required>
+                  <option value="">Select…</option>
+                  <option>Irrevocable LC at sight</option>
+                  <option>Confirmed LC at sight</option>
+                  <option>Deferred LC (30/60/90)</option>
+                  <option>TT / wire transfer</option>
+                  <option>Cash against documents</option>
+                  <option>Open account (existing buyer only)</option>
+                  <option>Other / propose</option>
+                </select>
+              </div>
+              <div class="m-fld">
+                <label>Issuing bank<span class="req">*</span></label>
+                <input type="text" name="loi_bank" required placeholder="Bank name + branch">
+              </div>
+              <div class="m-fld m-fld--full">
+                <label>Performance bond / SBLC posted?</label>
+                <div class="m-fld__radio">
+                  <label><input type="radio" name="loi_pb" value="yes"><span>Yes — 2%</span></label>
+                  <label><input type="radio" name="loi_pb" value="discuss" checked><span>Open to discuss</span></label>
+                  <label><input type="radio" name="loi_pb" value="no"><span>No</span></label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 7. End-use & references -->
+          <div class="m-loi-section">
+            <p class="m-loi-section__title">07 · End-use &amp; references</p>
+            <div class="m-grid-2">
+              <div class="m-fld m-fld--full">
+                <label>End-use / industry</label>
+                <input type="text" name="loi_enduse" placeholder="e.g. Crushing for edible oil / direct re-export / fuel blending">
+              </div>
+              <div class="m-fld m-fld--full">
+                <label>Trade references (2 recommended)</label>
+                <textarea name="loi_refs" placeholder="Company name, contact, email, last transaction date — two references strengthen the LOI"></textarea>
+              </div>
+              <div class="m-fld m-fld--full">
+                <label>Anything else the desk should know</label>
+                <textarea name="loi_notes" placeholder="Inspection preference, prior contracts, NCND, exclusivity, special terms…"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="m-loi__submit">
+            <button type="submit">Submit LOI to desk</button>
+            <p class="m-loi__submit-note">By submitting, you confirm authorization to bind the company named above and accept Mercatorum's standard NCND. Your details stay on the desk — they are not shared.</p>
+          </div>
+        </form>
+
+        <div class="m-loi__success" id="loi-success">
+          <h4>LOI received — thank you.</h4>
+          <p>We've routed it to the senior trader for your product line. You'll hear from us within one to two business days with a firm offer, terms, and a draft contract for review.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUICK INQUIRY FORM -->
+    <div class="m-toggle__panel" data-panel="quick" id="quick">
+      <div class="m-quick">
+        <h3>Quick inquiry.</h3>
+        <p>For general questions and first conversations. We respond within one business day. No commercial terms returned until an LOI is on the desk.</p>
+        <form class="m-form" data-form="contact" onsubmit="event.preventDefault(); this.style.display='none'; this.parentElement.insertAdjacentHTML('beforeend','<div class=\&quot;m-loi__success is-shown\&quot; style=\&quot;margin-top:0\&quot;><h4>Thanks — message received.</h4><p>We will be in touch within one business day.</p></div>');">
+          <div class="m-form__row">
+            <div class="m-field">
+              <label class="m-field__label" for="f-first">First name *</label>
+              <input id="f-first" type="text" name="first" required>
+            </div>
+            <div class="m-field">
+              <label class="m-field__label" for="f-last">Last name *</label>
+              <input id="f-last" type="text" name="last" required>
+            </div>
+          </div>
+          <div class="m-form__row">
+            <div class="m-field">
+              <label class="m-field__label" for="f-company">Company</label>
+              <input id="f-company" type="text" name="company">
+            </div>
+            <div class="m-field">
+              <label class="m-field__label" for="f-country">Country *</label>
+              <input id="f-country" type="text" name="country" required>
+            </div>
+          </div>
+          <div class="m-form__row">
+            <div class="m-field">
+              <label class="m-field__label" for="f-email">Email *</label>
+              <input id="f-email" type="email" name="email" required>
+            </div>
+            <div class="m-field">
+              <label class="m-field__label" for="f-phone">Phone</label>
+              <input id="f-phone" type="tel" name="phone">
+            </div>
+          </div>
+          <div class="m-field">
+            <label class="m-field__label" for="f-line">Product line</label>
+            <select id="f-line" name="line">
+              <option value="">Select a product line…</option>
+              <option>Agriculture — grains &amp; pulses</option>
+              <option>Energy — oil, gas, biofuels</option>
+              <option>Chemicals — fertilizers &amp; industrial</option>
+              <option>Multiple / not sure</option>
+            </select>
+          </div>
+          <div class="m-field">
+            <label class="m-field__label" for="f-msg">What would you like to know?</label>
+            <textarea id="f-msg" name="message" placeholder="Availability, lead times, general capability…"></textarea>
+          </div>
+          <button type="submit" class="m-btn m-btn--primary m-form__submit">Send inquiry</button>
+          <p class="m-form__hint" style="margin-top:14px">Pre-LOI inquiries don't receive commercial pricing. When you're ready, the <a href="#loi" onclick="document.querySelector('[data-tab=loi]').click()" style="color:var(--m-accent);border-bottom:1px solid var(--m-highlight);text-decoration:none">LOI form</a> routes you to the desk lead directly.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Tabs JS -->
+<script>
+  (function(){
+    const tabs = document.querySelectorAll('.m-toggle__nav button');
+    const panels = document.querySelectorAll('.m-toggle__panel');
+    tabs.forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        const id = btn.dataset.tab;
+        tabs.forEach(b => b.classList.toggle('is-active', b === btn));
+        panels.forEach(p => p.classList.toggle('is-active', p.dataset.panel === id));
+      });
+    });
+    // Deep links: #loi or #quick
+    if (location.hash === '#quick') document.querySelector('[data-tab=quick]').click();
+  })();
+</script>
+
+<!-- INFO / DESK -->
+<section class="m-section">
+  <div class="m-wrap">
+    <div class="m-desk-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,80px);align-items:start">
+      <div>
+        <p class="m-eyebrow">Reach the desk directly</p>
+        <h2 class="m-h2" style="font-size:clamp(28px,3.5vw,44px); margin:0 0 24px;">For when an LOI<br>isn't the right channel.</h2>
+        <p style="font-size:16px;line-height:1.7;color:var(--m-text-muted);max-width:520px">
+          Existing counterparties, established buyers, and producers we work with
+          regularly — go direct. We'll route you to the trader handling your book.
+        </p>
+      </div>
+      <div class="m-desk-info" style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+        <div class="m-info-block">
+          <p class="m-info-block__label">Trading desk</p>
+          <p class="m-info-block__value"><a href="mailto:sales@mercatorum.ca">sales@mercatorum.ca</a></p>
+        </div>
+        <div class="m-info-block">
+          <p class="m-info-block__label">Operations</p>
+          <p class="m-info-block__value"><a href="mailto:sales@mercatorum.ca">sales@mercatorum.ca</a></p>
+        </div>
+        <div class="m-info-block">
+          <p class="m-info-block__label">Office</p>
+          <p class="m-info-block__value">Edmonton, Alberta<br>Canada</p>
+        </div>
+        <div class="m-info-block">
+          <p class="m-info-block__label">Hours</p>
+          <p class="m-info-block__value">Mon–Fri · 08:00–18:00 MT</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- FAQ — editorial -->
+<section class="m-section">
+  <div class="m-wrap">
+    <div style="max-width:760px;">
+      <p class="m-eyebrow">Common questions</p>
+      <h2 class="m-h2">Before you write.</h2>
+    </div>
+
+    <div class="m-faq">
+      <div class="m-faq__item">
+        <h3 class="m-faq__q">Why do you require an LOI for pricing?</h3>
+        <p class="m-faq__a">A firm price ties our hand on physical product we have to source, hedge, and ship. We won't put a number on the table unless there's a real trade behind it. The LOI is how we tell — it costs us nothing to issue an offer if the buyer is ready; it costs us a lot to issue one if they aren't.</p>
+      </div>
+      <div class="m-faq__item">
+        <h3 class="m-faq__q">What's the minimum cargo size for an LOI?</h3>
+        <p class="m-faq__a">Bulk: 25,000 MT and up per shipment. Containers: minimum one 20-ft FCL (~20–25 MT). Below that, we point you to a regional aggregator — we're not the right counterparty.</p>
+      </div>
+      <div class="m-faq__item">
+        <h3 class="m-faq__q">Do we sign an NCND first?</h3>
+        <p class="m-faq__a">A mutual NCND covers every LOI from the moment you submit. We don't show your trade around the market, you don't approach our producers directly. If you want a formal NCND/MFPA signed before submitting, request one with your inquiry.</p>
+      </div>
+      <div class="m-faq__item">
+        <h3 class="m-faq__q">Which payment instruments do you accept?</h3>
+        <p class="m-faq__a">Irrevocable LC at sight or confirmed LC from a Tier-1 issuing bank is the standard. Deferred LC, TT, and CAD are acceptable case-by-case. Open account is reserved for counterparties we've transacted with before.</p>
+      </div>
+      <div class="m-faq__item">
+        <h3 class="m-faq__q">How do you verify a buyer?</h3>
+        <p class="m-faq__a">We do a light KYC on every new counterparty: company registration, beneficial ownership, sanctions screening, and at least one trade reference. For the buyer it's a 10-minute exercise. For us it's how we sleep at night.</p>
+      </div>
+      <div class="m-faq__item">
+        <h3 class="m-faq__q">Will you reply if I'm not yet ready to LOI?</h3>
+        <p class="m-faq__a">Yes — use the quick inquiry form. You'll get general availability, lead times, and capability info. You won't get a price. That's not gatekeeping; it's how a real trading desk works.</p>
+      </div>
+      <div class="m-faq__item">
+        <h3 class="m-faq__q">Do you handle documentation?</h3>
+        <p class="m-faq__a">Yes — phytosanitary, dangerous-goods, certificate of origin, weight &amp; quality, fumigation. Anything the buyer's bank or port authority needs, we prepare and file.</p>
+      </div>
+      <div class="m-faq__item">
+        <h3 class="m-faq__q">How fast will I see an offer after submitting the LOI?</h3>
+        <p class="m-faq__a">One to two business days for standard contracts. Three to five for structured, multi-year, or non-standard trades. We confirm receipt the same day so you're never wondering.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="m-footer">
+  <div class="m-footer__top">
+    <div class="m-footer__col">
+      <div class="m-footer__brand-row">
+        <span class="m-footer__coin"><img src="https://cdn.jsdelivr.net/gh/yungmoneyhuncho/mercatorum-assets@main/logo-monogram.png" alt="Mercatorum mark"></span>
+        <p class="m-footer__brand">Mercatorum</p>
+      </div>
+      <p class="m-footer__tagline">Canadian commodities. Sourced direct. Shipped global.</p>
+    </div>
+    <div class="m-footer__col">
+      <h5>Office</h5>
+      <p>Edmonton, Alberta<br>Canada</p>
+    </div>
+    <div class="m-footer__col">
+      <h5>Contact</h5>
+      <a href="mailto:sales@mercatorum.ca">sales@mercatorum.ca</a>
+    </div>
+    <div class="m-footer__col">
+      <h5>Site</h5>
+      <a href="/home">Home</a>
+      <a href="/products">Products</a>
+      <a href="/insights">Insights</a>
+      <a href="/knowledge">Knowledge</a>
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+    </div>
+  </div>
+  <div class="m-footer__bottom">All rights reserved &nbsp;·&nbsp; © 2026 Mercatorum</div>
+</footer>
