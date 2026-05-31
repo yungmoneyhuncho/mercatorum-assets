@@ -398,7 +398,7 @@
     // To enable seamless server-side capture (no mail client needed), paste a
     // Formspree/Basin endpoint here, e.g. 'https://formspree.io/f/xxxxxxx'.
     // Leave empty to use the email-compose fallback below.
-    var ENDPOINT = '';
+    var ENDPOINT = 'https://formsubmit.co/ajax/sales@mercatorum.ca';
     var DESK_EMAIL = 'sales@mercatorum.ca';
 
     function labelFor(form, el){
@@ -447,7 +447,7 @@
         var body = bodyText(subject, c.pairs);
         if(ENDPOINT){
           var btn = form.querySelector('[type=submit]'); if(btn) btn.disabled = true;
-          var payload = Object.assign({_subject: subject, _replyto: c.data.loi_email || c.data.email || ''}, c.data);
+          var payload = Object.assign({_subject: subject, _template: 'table', _captcha: 'false', _replyto: c.data.loi_email || c.data.email || ''}, c.data);
           fetch(ENDPOINT, {method:'POST', headers:{'Accept':'application/json','Content-Type':'application/json'}, body: JSON.stringify(payload)})
             .then(function(){ onDone(); })
             .catch(function(){ sendMail(subject, body); onDone(); });
