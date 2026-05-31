@@ -193,12 +193,12 @@
       <div class="m-conv__row">
         <div class="m-conv__field">
           <label for="convA">Amount</label>
-          <input id="convA" type="number" value="1000" min="0" step="any" />
+          <input id="convA" type="text" inputmode="decimal" value="1000" />
         </div>
         <div class="m-conv__eq">=</div>
         <div class="m-conv__field">
           <label for="convB">Equivalent</label>
-          <input id="convB" type="number" value="36740" min="0" step="any" />
+          <input id="convB" type="text" inputmode="decimal" value="36740" />
         </div>
       </div>
       <div class="m-conv__row">
@@ -283,11 +283,12 @@
       return n.toLocaleString(undefined,{maximumFractionDigits:6});
     }
     function recalc(fromInput){
+      const num = function(v){ return parseFloat(String(v).replace(/,/g,'')) || 0; };
       if(fromInput === 'A'){
-        const kg = toKg(parseFloat(A.value)||0, UA.value);
+        const kg = toKg(num(A.value), UA.value);
         B.value = fmt(fromKg(kg, UB.value));
       } else {
-        const kg = toKg(parseFloat(B.value)||0, UB.value);
+        const kg = toKg(num(B.value), UB.value);
         A.value = fmt(fromKg(kg, UA.value));
       }
     }
