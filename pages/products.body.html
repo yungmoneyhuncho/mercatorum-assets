@@ -25,10 +25,12 @@
         <h1 class="m-prods-hero__title">What<br>we <em>trade.</em></h1>
         <div class="m-prods-hero__rule"></div>
         <p class="m-prods-hero__lede">
-          Three product lines, sourced direct from named Canadian
-          producers — graded, papered, and shipped under the standard
-          terms of international trade. Every commodity on this page is
-          available for offer to qualified buyers.
+          Three desks under one house. <strong>Grain &amp; pulses</strong> — durum,
+          lentils, peas, canola. <strong>Energy</strong> — crude, condensate,
+          propane &amp; LPG, biodiesel. <strong>Fertilizer &amp; chemicals</strong> —
+          urea, DAP, potash, sulphur, methanol. Sourced direct from named
+          Canadian producers, papered, and shipped to qualified buyers in
+          forty-plus countries. Click any product to start an offer.
         </p>
         <div class="m-prods-hero__cta-row">
           <a class="m-prods-hero__btn m-prods-hero__btn--primary" href="/contact#loi">Submit an LOI</a>
@@ -42,7 +44,7 @@
           <div>
             <p class="m-cat__num">01 · Agriculture</p>
             <h3 class="m-cat__name">Grain, oilseeds &amp; pulses</h3>
-            <p class="m-cat__count">22 commodities · Prairie origin</p>
+            <p class="m-cat__count">Durum · lentils · peas · canola</p>
           </div>
           <span class="m-cat__arrow">→</span>
         </a>
@@ -50,8 +52,8 @@
           <div class="m-cat__thumb" style="background-image:url('https://images.unsplash.com/photo-1516199423456-1f1e91b06f25?w=400&q=70')"></div>
           <div>
             <p class="m-cat__num">02 · Energy</p>
-            <h3 class="m-cat__name">Crude &amp; refined products</h3>
-            <p class="m-cat__count">6 product grades · WCSB origin</p>
+            <h3 class="m-cat__name">Crude, LPG &amp; refined</h3>
+            <p class="m-cat__count">Crude · condensate · LPG · biofuels</p>
           </div>
           <span class="m-cat__arrow">→</span>
         </a>
@@ -60,7 +62,7 @@
           <div>
             <p class="m-cat__num">03 · Chemicals</p>
             <h3 class="m-cat__name">Fertilizers &amp; industrial</h3>
-            <p class="m-cat__count">7 product lines · Bulk &amp; break-bulk</p>
+            <p class="m-cat__count">Urea · DAP · potash · sulphur</p>
           </div>
           <span class="m-cat__arrow">→</span>
         </a>
@@ -456,6 +458,32 @@
   </div>
 </section>
 
+<!-- Make every product card click through to a pre-filled inquiry -->
+<script>
+(function(){
+  document.querySelectorAll('.m-prod').forEach(function(card){
+    var t = card.querySelector('.m-prod__title');
+    var name = t ? t.textContent.trim() : '';
+    var href = '/contact?product=' + encodeURIComponent(name) + '#loi';
+    card.style.cursor = 'pointer';
+    card.setAttribute('role','link');
+    card.setAttribute('tabindex','0');
+    card.setAttribute('aria-label','Inquire about ' + name);
+    var body = card.querySelector('.m-prod__body');
+    if (body && !body.querySelector('.m-prod__cta')) {
+      var cta = document.createElement('span');
+      cta.className = 'm-prod__cta';
+      cta.textContent = 'Inquire →';
+      cta.style.cssText = 'display:inline-block;margin-top:10px;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--m-accent);opacity:.85;';
+      body.appendChild(cta);
+    }
+    function go(){ location.href = href; }
+    card.addEventListener('click', go);
+    card.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(); } });
+  });
+})();
+</script>
+
 <footer class="m-footer">
   <div class="m-footer__top">
     <div class="m-footer__col">
@@ -467,7 +495,7 @@
     </div>
     <div class="m-footer__col">
       <h5>Office</h5>
-      <p>Edmonton, Alberta<br>Canada</p>
+      <p>Edmonton, Alberta, Canada</p>
     </div>
     <div class="m-footer__col">
       <h5>Contact</h5>

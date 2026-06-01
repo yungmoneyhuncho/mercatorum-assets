@@ -389,6 +389,15 @@
     });
     // Deep links: #loi or #quick
     if (location.hash === '#quick') document.querySelector('[data-tab=quick]').click();
+    // Prefill LOI commodity from ?product= (Products page cards link here)
+    try {
+      var prod = new URLSearchParams(location.search).get('product');
+      if (prod) {
+        var loiTab = document.querySelector('[data-tab=loi]'); if (loiTab) loiTab.click();
+        var pInput = document.querySelector('[name="loi_product"]'); if (pInput) pInput.value = prod;
+        setTimeout(function(){ try{ var f=document.getElementById('form'); if(f) window.scrollTo({top: f.offsetTop - 80, behavior:'smooth'}); }catch(e){} }, 250);
+      }
+    } catch(e){}
   })();
 </script>
 
@@ -487,7 +496,7 @@
         </div>
         <div class="m-info-block">
           <p class="m-info-block__label">Office</p>
-          <p class="m-info-block__value">Edmonton, Alberta<br>Canada</p>
+          <p class="m-info-block__value">Edmonton, Alberta, Canada</p>
         </div>
         <div class="m-info-block">
           <p class="m-info-block__label">Hours</p>
@@ -556,7 +565,7 @@
     </div>
     <div class="m-footer__col">
       <h5>Office</h5>
-      <p>Edmonton, Alberta<br>Canada</p>
+      <p>Edmonton, Alberta, Canada</p>
     </div>
     <div class="m-footer__col">
       <h5>Contact</h5>
