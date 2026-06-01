@@ -25,6 +25,10 @@
     a[href^="#"]{ scroll-margin-top:118px }
     @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto } }
 
+    /* ---- Footer link hover: underline hugs the text, not the whole column ---- */
+    .m-footer__col a{ width:fit-content; max-width:100%; transition:color .18s ease, opacity .18s ease; }
+    .m-footer__col a:hover{ border-bottom:0 !important; opacity:1 !important; color:var(--m-highlight) !important; text-decoration:underline !important; text-underline-offset:3px; text-decoration-thickness:1px; }
+
     /* ---- Mobile navigation (hamburger + drawer) ---- */
     .m-nav-burger{ display:none; }
     @media (max-width:900px){
