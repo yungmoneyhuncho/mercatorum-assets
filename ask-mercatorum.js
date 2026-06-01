@@ -784,6 +784,18 @@
     if (/^(hi|hello|hey|yo|hiya|good (morning|afternoon|evening))\b/.test(q))
       return { html:`Hello — glad to help. Are you buying, selling, or just scoping the market? And which commodity?`, chips:['I want to buy','What do you trade?','Just looking'] };
 
+    // 4a) simple "what can you do / help" (keep it plain)
+    if (/^(help|menu|options)\b/.test(q) || has('what can you do','what can you help','what do you do here','how do you work','how does this work','what is this'))
+      return { html:`I'm the Mercatorum desk assistant — happy to keep it simple. I can:<br><br>• Tell you <strong>what we sell</strong><br>• Explain <strong>how to buy</strong> and what an LOI is<br>• Break down <strong>shipping terms</strong> (FOB, CIF…) and <strong>payment</strong><br>• Do quick <strong>unit conversions</strong> (tonnes ↔ bushels, barrels…)<br>• <strong>Connect you to a real trader</strong><br><br>What would you like?`, chips:['What do you sell?','How do I buy?','Get a price','Talk to a human'] };
+
+    // 4b) talk to a human
+    if (has('human','real person','speak to someone','talk to someone','representative','salesperson','call me','speak to a trader','live person','real trader','speak to a human'))
+      return { html:`Of course. A real trader replies within one business day at <a href="mailto:sales@mercatorum.ca">sales@mercatorum.ca</a>. The fastest route to a firm price is the <a href="/contact#loi">LOI form</a> — it lands straight with a senior trader. Want me to take a few details now instead?`, chips:[{label:'Book an inquiry',cta:true},'Submit an LOI','What do you sell?'] };
+
+    // 4c) simple "how do I buy"
+    if (has('how do i buy','how to buy','how can i buy','how do i order','how to order','how do i purchase','how do i get one','how do i get started buying'))
+      return { html:`Simple version — tell us what you want and we send a firm offer:<br><br><strong>1.</strong> Send an <a href="/contact#loi">LOI</a> (what, how much, where, how you'll pay).<br><strong>2.</strong> We reply with a price &amp; terms.<br><strong>3.</strong> You open the LC, we ship, you pay against documents.<br><br>Want me to start one now?`, chips:[{label:'Book an inquiry',cta:true},'What do you sell?','Payment terms?'] };
+
     // 5) buying / selling intent → start guided booking
     if (has('want to buy','looking to buy','need to buy','interested in buying','i want to buy','place an order','procure','sourcing','source ','purchase','buy ','buyer','import','want to sell','looking to sell','i sell','i supply','i am a producer','we produce','offer to sell','i\'m selling','seller','export ')){
       const seed = {};
@@ -801,8 +813,8 @@
 
     // 7) products
     if (has('what','which') && has('trade','sell','offer','products','commodit','deal in')){
-      return { html:`Three desks:<br><br><strong>Agriculture</strong> — wheat, durum, barley, oats, canola, flax, soybeans, peas, lentils, chickpeas.<br><strong>Energy</strong> — crude, diesel, gasoline, jet, NGLs.<br><strong>Chemicals &amp; fertilizer</strong> — urea, DAP, MOP, methanol, polypropylene.<br><br>Full catalogue with photos: <a href="/products">products page</a>. Which one interests you?`,
-               chips:['Canola','Lentils','Crude oil','Fertilizer'] };
+      return { html:`Three desks:<br><br><strong>Agriculture</strong> — wheat, durum, barley, oats, canola, flax, soybeans, peas, lentils, chickpeas.<br><strong>Energy</strong> — crude, condensate, propane/LPG, diesel, gasoline, jet, NGLs.<br><strong>Chemicals &amp; fertilizer</strong> — urea, DAP, MAP, potash (MOP), sulphur, methanol, caustic soda.<br><br>Full catalogue with photos: <a href="/products">products page</a>. Which one interests you?`,
+               chips:['Canola','Lentils','LPG / propane','Fertilizer'] };
     }
 
     // 8) per-commodity
@@ -857,7 +869,7 @@
     if (has('insight','market','news','outlook','commentary','blog','report'))
       return { html:`Notes from the desk: <a href="/insights">Market Insights</a>. Latest — canola outlook, red lentils &amp; India, dry-bulk freight.`, chips:['Canola','Lentils','Freight'] };
     if (has('about','who are you','company','tell me about','history'))
-      return { html:`Mercatorum is a Canadian merchant house — small team, wide reach, connecting named Canadian producers to buyers in 40+ countries. More: <a href="/about">about page</a>.`, chips:['What do you trade?','Get a quote'] };
+      return { html:`Mercatorum is a Canadian merchant house — a focused desk with global reach, connecting named Canadian producers to buyers in 40+ countries. More: <a href="/about">about page</a>.`, chips:['What do you trade?','Get a quote'] };
 
     // 13b) how a trade works / process
     if (has('how does','how do you','process','how it works','how a trade','steps','workflow','how would','how can i','get started','first step'))
@@ -911,15 +923,16 @@
     if (has('sanction','compliance','ofac','embargo','restricted'))
       return { html:`We screen every counterparty and destination against OFAC/EU/UN sanctions lists and won't transact where prohibited. Clean compliance is a condition of every contract.`, chips:['KYC process?',{label:'Book an inquiry',cta:true}] };
 
-    // 13) minimums, location, freight, insights, company
+    // 14) thanks / acknowledgements
+    if (has('thank','thanks','thx','cheers','appreciate','perfect','got it','that helps','great help'))
       return { html:`Anytime. Ready for a price, the <a href="/contact#loi">LOI form</a> reaches the desk directly — otherwise ask me anything else.`, chips:['Submit an LOI','What do you trade?'] };
     if (has('bye','goodbye','later','cya','that\'s all'))
       return { html:`Cheers — close the panel whenever. The desk's always here: <a href="/contact">contact</a>.`, chips:['Get a quote'] };
 
     // 15) fallback (acknowledge context)
     const ctx = state.lastCommodity ? ` We were talking about <strong>${state.lastCommodity}</strong> — want a quote on that?` : '';
-    return { html:`I can help with commodities, Incoterms, document checklists, conversions, and quotes.${ctx}<br><br>Try something like <code>CFR vs CIF</code>, <code>500 MT wheat to bushels</code>, or <em>"I want to buy canola"</em>. For a real price, the <a href="/contact#loi">LOI form</a> routes to the desk.`,
-             chips: defaultChips() };
+    return { html:`Happy to help — could you say that another way? I'm good with simple questions too. For example:<br><br>• <em>"What do you sell?"</em><br>• <em>"How do I buy from you?"</em><br>• <em>"Where are you based?"</em><br>• <em>"How do I get a price?"</em>${ctx}<br><br>Or just tell me what you're after and I'll point you the right way — or reach a real trader at <a href="mailto:sales@mercatorum.ca">sales@mercatorum.ca</a>.`,
+             chips: ['What do you sell?','How do I buy?','Get a price','Talk to a human'] };
   }
 
   /* ============================ INIT ============================ */
