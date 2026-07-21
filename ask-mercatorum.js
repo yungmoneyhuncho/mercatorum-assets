@@ -29,6 +29,16 @@
     .m-footer__col a{ width:fit-content; max-width:100%; transition:color .18s ease, opacity .18s ease; }
     .m-footer__col a:hover{ border-bottom:0 !important; opacity:1 !important; color:var(--m-highlight) !important; text-decoration:underline !important; text-underline-offset:3px; text-decoration-thickness:1px; }
 
+    /* ---- Office address in the custom glass header ---- */
+    .m-glass-nav__brand-copy{ display:flex; flex-direction:column; align-items:flex-start; gap:5px; min-width:0; }
+    .m-glass-nav__address{
+      display:flex; flex-direction:column; gap:2px; color:#F5F1E8;
+      font-family:'Inter',sans-serif; font-size:8px; font-style:normal; font-weight:500;
+      letter-spacing:.075em; line-height:1.25; text-transform:uppercase; white-space:nowrap;
+      opacity:.68;
+    }
+    @media (max-width:1080px){ .m-glass-nav__address{ display:none } }
+
     /* ---- Mobile navigation (hamburger + drawer) ---- */
     .m-nav-burger{ display:none; }
     @media (max-width:900px){
@@ -66,6 +76,12 @@
     }
     .m-nav-drawer a:hover, .m-nav-drawer a.is-active{ background:rgba(245,241,232,0.1) }
     .m-nav-drawer a.is-active{ color:#A88746 }
+    .m-nav-drawer__address{
+      display:flex; flex-direction:column; gap:4px; margin:8px 8px 4px; padding:14px 10px 16px;
+      border-top:1px solid rgba(245,241,232,.16); color:rgba(245,241,232,.72);
+      font-family:'Inter',sans-serif; font-size:11px; font-style:normal; font-weight:500;
+      letter-spacing:.08em; line-height:1.4; text-transform:uppercase;
+    }
     .m-nav-drawer__cta{ margin-top:6px; background:#7A1E1E !important; text-align:center; color:#F5F1E8 !important; border-radius:999px !important; }
     .m-nav-drawer__cta:hover{ background:#5A1414 !important }
     @media (min-width:901px){ .m-nav-drawer, .m-nav-burger{ display:none !important } }
@@ -107,10 +123,38 @@
     setTimeout(patchAddr, 800);
   })();
 
-  /* ===== Build mobile hamburger nav from the existing glass nav ===== */
+  const OFFICE_ADDRESS = ['206-18304 105 Ave NW', 'Edmonton, AB T5S 0C6', 'Canada'];
+
+  function makeOfficeAddress(className){
+    const address = document.createElement('span');
+    address.className = className;
+    address.setAttribute('aria-label', 'Mercatorum office address: ' + OFFICE_ADDRESS.join(', '));
+    OFFICE_ADDRESS.forEach(function(line){
+      const row = document.createElement('span');
+      row.textContent = line;
+      address.appendChild(row);
+    });
+    return address;
+  }
+
+  function decorateHeader(nav){
+    const logo = nav.querySelector('.m-glass-nav__logo');
+    const word = logo && logo.querySelector('.m-glass-nav__word');
+    if (!logo || !word || logo.querySelector('.m-glass-nav__address')) return;
+
+    const brandCopy = document.createElement('span');
+    brandCopy.className = 'm-glass-nav__brand-copy';
+    logo.insertBefore(brandCopy, word);
+    brandCopy.appendChild(word);
+    brandCopy.appendChild(makeOfficeAddress('m-glass-nav__address'));
+  }
+
+  /* ===== Add the office address and build the mobile hamburger nav ===== */
   function buildMobileNav(){
     const nav = document.querySelector('.m-glass-nav');
-    if (!nav || nav.querySelector('.m-nav-burger')) return;
+    if (!nav) return false;
+    decorateHeader(nav);
+    if (nav.querySelector('.m-nav-burger')) return true;
     const links = nav.querySelector('.m-glass-nav__links');
     const cta   = nav.querySelector('.m-glass-nav__cta');
 
@@ -132,6 +176,7 @@
         drawer.appendChild(c);
       });
     }
+    drawer.appendChild(makeOfficeAddress('m-nav-drawer__address'));
     if (cta){
       const c = cta.cloneNode(true);
       c.classList.add('m-nav-drawer__cta');
@@ -150,9 +195,20 @@
     drawer.addEventListener('click', (e)=>{ if (e.target.tagName === 'A') close(); });
     document.addEventListener('click', (e)=>{ if (!drawer.contains(e.target) && !burger.contains(e.target)) close(); });
     window.addEventListener('resize', ()=>{ if (window.innerWidth > 900) close(); });
+    return true;
   }
-  if (document.readyState !== 'loading') buildMobileNav();
-  else document.addEventListener('DOMContentLoaded', buildMobileNav);
+  function initHeader(){
+    if (buildMobileNav()) return;
+    try {
+      const observer = new MutationObserver(function(){
+        if (buildMobileNav()) observer.disconnect();
+      });
+      observer.observe(document.documentElement, { childList:true, subtree:true });
+      setTimeout(function(){ observer.disconnect(); }, 10000);
+    } catch(e){}
+  }
+  if (document.readyState !== 'loading') initHeader();
+  else document.addEventListener('DOMContentLoaded', initHeader);
 
   /* ===== Pre-fill the LOI form from a chat-built inquiry (contact page) ===== */
   function prefillLOIFromLead(){
