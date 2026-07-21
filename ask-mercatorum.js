@@ -89,6 +89,24 @@
   `;
   document.head.appendChild(globalCss);
 
+  /* ===== Homepage footer address patch (its Code Block still carries the old line) ===== */
+  (function(){
+    var LINES = ['206-18304 105 Ave NW', 'Edmonton, AB T5S 0C6', 'Canada'];
+    function patchAddr(){
+      document.querySelectorAll('.m-footer__col p').forEach(function(p){
+        if (/Edmonton, Alberta/.test(p.textContent) && !/18304/.test(p.textContent)) {
+          p.textContent = '';
+          LINES.forEach(function(line, i){
+            if (i) p.appendChild(document.createElement('br'));
+            p.appendChild(document.createTextNode(line));
+          });
+        }
+      });
+    }
+    if (document.readyState !== 'loading') patchAddr(); else document.addEventListener('DOMContentLoaded', patchAddr);
+    setTimeout(patchAddr, 800);
+  })();
+
   /* ===== Build mobile hamburger nav from the existing glass nav ===== */
   function buildMobileNav(){
     const nav = document.querySelector('.m-glass-nav');
